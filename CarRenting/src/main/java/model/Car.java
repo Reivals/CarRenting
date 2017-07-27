@@ -72,6 +72,9 @@ public class Car {
 	public ObservableList<Car> getObservableList() {
 		return observableList;
 	}
+	public void setAvailable(Boolean available) {
+		this.available.setValue(available);
+	}
 	
 
 }

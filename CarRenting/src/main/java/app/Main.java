@@ -1,8 +1,5 @@
 package app;
 
-import controller.AddNewCarController;
-import controller.CustomerListController;
-import controller.DealListController;
 import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

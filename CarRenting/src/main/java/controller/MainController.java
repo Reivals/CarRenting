@@ -119,15 +119,7 @@ public class MainController {
     			customerModel.getLocalNumber(), 
     			customerModel.getPostCode(),
     			customerModel.getId() );
-    	
-    	Car car = new Car(tableView.getSelectionModel().getSelectedItem().getId(), 
-    			tableView.getSelectionModel().getSelectedItem().getBrand(), 
-    			tableView.getSelectionModel().getSelectedItem().getEngine(), 
-    			tableView.getSelectionModel().getSelectedItem().getNavi().toString(), 
-    			tableView.getSelectionModel().getSelectedItem().getAvailable().toString(), 
-    			tableView.getSelectionModel().getSelectedItem().getLiters(),
-    			tableView.getSelectionModel().getSelectedItem().getPower());
-    	
+
     	if(customerModel.getName()==null || customerModel.getSurname()==null || customerModel.getCity()==null || customerModel.getStreet()==null ||
     			customerModel.getLocalNumber()==null ||	customerModel.getPostCode()==null || customerModel.getId()==null)
     	{
@@ -148,8 +140,11 @@ public class MainController {
     					customerModel.getPostCode(),
     					customerModel.getId());
     			customerModel.getObservableList().add(newCustomer);
+    			Car car = tableView.getSelectionModel().getSelectedItem();
     			Deal deal = new Deal(newCustomer,car);
     			dealModel.getObservableList().add(deal);
+    			car.setAvailable(false);
+    			tableView.refresh();
     		}
     	}
     	catch(Exception e)
@@ -159,6 +154,7 @@ public class MainController {
     		alert.showAndWait();
     		
     	}
+    	
     }
 
     @FXML
