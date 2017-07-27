@@ -26,9 +26,9 @@ import pdf.CreatingPDF;
 
 public class MainController {
 	
-	private Car carModel = new Car();
-	private Customer customerModel = new Customer();
-	private Deal dealModel = new Deal();
+	private Car carModel;
+	private Customer customerModel;
+	private Deal dealModel;
 	@FXML
     private Button addVehicleButton;
 	
@@ -94,6 +94,13 @@ public class MainController {
     @FXML
     private Button clearButton;
     
+    public MainController(Car carModel,Customer customerModel,Deal dealModel)
+    {
+		this.carModel=carModel;
+		this.customerModel=customerModel;
+		this.dealModel=dealModel;
+    	
+    }
 
     @FXML
     void acceptButtonClicked(ActionEvent event) throws DocumentException, IOException {
@@ -188,32 +195,30 @@ public class MainController {
     	postCodeTextField.textProperty().bindBidirectional(customerModel.getPostCodeSimpleStringProp());
     	idTextField.textProperty().bindBidirectional(customerModel.getIdSimpleStringProp());
     	
-    	
-    	
     	tableView.setItems(carModel.getObservableList());
     	
     }
     @FXML
-    public void addNewVehicleButtonClicked() throws IOException
+    public void addNewVehicleButtonClicked() throws IOException, InterruptedException
     {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddNewCar.fxml"));
+    	AddNewCarController addNewCarController = new AddNewCarController(carModel);
+    	loader.setController(addNewCarController);
     	Stage stage = new Stage();
     	Scene scene = new Scene((Pane)loader.load());
     	stage.setScene(scene);
+    	stage.sizeToScene();
     	stage.show();
-    	AddNewCarController addNewCarController = loader.getController();
-    	addNewCarController.initData(carModel);
-    	addNewCarController.comboBoxSelectedInitialialy();
+    	
     	
     }
     @FXML
     public void showClientDatabaseButtonClicked() throws IOException
     {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CustomerList.fxml"));
+    	CustomerListController customerListController = new CustomerListController(customerModel);
+    	loader.setController(customerListController);
     	Scene scene = new Scene((Pane)loader.load());
-    	CustomerListController customerListController = loader.getController();
-    	customerListController.initData(customerModel);
-    	customerListController.asad();
     	borderPane.setLeft(customerListController.getTableView());
     }
     @FXML
@@ -228,9 +233,9 @@ public class MainController {
     public void showContractsButtonClicked() throws IOException
     {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/DealsList.fxml"));
+    	DealListController dealListController = new DealListController(dealModel);
+    	loader.setController(dealListController);
     	Scene scene = new Scene((Pane)loader.load());
-    	DealListController dealListController = loader.getController();
-    	dealListController.initData(dealModel);
     	Stage stage = new Stage();
     	stage.setScene(scene);
     	stage.show();

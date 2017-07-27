@@ -7,10 +7,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Car;
 import model.Customer;
+import model.Deal;
 
 public class CustomerListController {
-	
-		private Customer customer;
+
+	private Customer customerModel;
 	 	@FXML
 	    private AnchorPane anchorPane;
 
@@ -46,9 +47,16 @@ public class CustomerListController {
 			this.tableView = tableView;
 		}
 		
+	    public CustomerListController(Customer customerModel)
+	    {
+			this.customerModel=customerModel;
+	    	
+	    }
+		
 		@FXML
 		public void initialize()
 		{
+			tableView.setItems(customerModel.getObservableList());
 			nameTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("name"));
 			surnameTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("surname"));
 			cityTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("city"));
@@ -58,14 +66,5 @@ public class CustomerListController {
 			idTableColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("id"));
 		}
 		
-		public void initData(Customer customer)
-		{
-			this.customer=customer;
-		}
-		
-		public void asad()
-		{
-			tableView.setItems(customer.getObservableList());
-		}
 
 }

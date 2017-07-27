@@ -16,8 +16,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Car;
 import model.Customer;
+import model.Deal;
 
 public class AddNewCarController {
+	
+	private Car carModel;
 	
 	private ObservableList<String> choiceBoxList = FXCollections.observableArrayList("YES","NO");
 	@FXML
@@ -44,14 +47,21 @@ public class AddNewCarController {
     @FXML
     private ComboBox<String> comboBox;
 
-	private Car model;
+	
+	
+    public AddNewCarController(Car carModel)
+    {
+		this.carModel=carModel;
+    	
+    }
+	
 
-    @FXML
+	@FXML
     void acceptButtonClicked(ActionEvent event){
     	try {
     	Car item = new Car(Integer.parseInt(idTextField.getText()),brandTextField.getText(),engineTextField.getText(), choiceBoxWhatIsSelected()
     			,true,Double.parseDouble(fuelTextField.getText()),Integer.parseInt(powerTextField.getText()));
-    	model.getObservableList().add(item);
+    	carModel.getObservableList().add(item);
     	Stage stage = (Stage) comboBox.getScene().getWindow();
     	stage.close();
     	}
@@ -61,11 +71,6 @@ public class AddNewCarController {
     	}
 
     }
-
-	public void initData(Car model) {
-		this.model = model;
-		
-	}
 	
 	public boolean choiceBoxWhatIsSelected()
 	{
@@ -77,30 +82,31 @@ public class AddNewCarController {
 			return false;
 	}
 	
-	public void comboBoxSelectedInitialialy()
+	public void comboBoxSelectedFunctionality()
 	{
-		autoIncrementChekBox.setSelected(true);
-		if(autoIncrementChekBox.isSelected())
-		{
-			idTextField.setText(Integer.toString((model.getObservableList().size()+1)));
+			idTextField.setText(Integer.toString((carModel.getObservableList().size()+1)));
 			idTextField.setDisable(true);
-		}
-		comboBox.setItems(choiceBoxList);
-		comboBox.setValue("YES");
 	}
+		
 	@FXML
 	public void initialize()
 	{
+		autoIncrementChekBox.setSelected(true);
+		comboBoxSelectedFunctionality();
+		comboBox.setItems(choiceBoxList);
+		comboBox.setValue("YES");
 		autoIncrementChekBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
 		    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-		    	if(newValue==false)
+		    	if(autoIncrementChekBox.isSelected()==true)
 		    	{
-		    		idTextField.setText("");
-		    		idTextField.setDisable(false);
+		    		
+					comboBoxSelectedFunctionality();
+
 		    	}
 		    	else
 		    	{
-		    		comboBoxSelectedInitialialy();
+		    		idTextField.setText("");
+		    		idTextField.setDisable(false);
 		    	}
 		    }
 		});

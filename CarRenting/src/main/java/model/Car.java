@@ -17,7 +17,7 @@ public class Car {
 	private SimpleIntegerProperty power = new SimpleIntegerProperty();
 	
 	ObservableList<Car> observableList = FXCollections.observableArrayList();
-	public Car(int i, String string, String string2, String string3, String string4, double d, int j)
+	public Car(int id, String brand, String engine, String navi, String available, double liters, int power)
 	{
 		
 	}
