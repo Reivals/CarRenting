@@ -1,5 +1,6 @@
 package controller;
 
+import dialogs.Dialogs;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -47,23 +48,16 @@ public class AddNewCarController {
 
     @FXML
     void acceptButtonClicked(ActionEvent event){
-    	boolean didErrorOccured=false;
     	try {
-    	Car item = new Car(Integer.parseInt(idTextField.getText()),brandTextField.getText(),engineTextField.getText(), choiceBoxWhatIsSelected(),true,Double.parseDouble(fuelTextField.getText()),Integer.parseInt(powerTextField.getText()));
+    	Car item = new Car(Integer.parseInt(idTextField.getText()),brandTextField.getText(),engineTextField.getText(), choiceBoxWhatIsSelected()
+    			,true,Double.parseDouble(fuelTextField.getText()),Integer.parseInt(powerTextField.getText()));
     	model.getObservableList().add(item);
+    	Stage stage = (Stage) comboBox.getScene().getWindow();
+    	stage.close();
     	}
     	catch(Exception e)
     	{
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setContentText("Empty file / Incorrect data format. Please correct yourself!");
-    		alert.setHeaderText("Ooops. Something goes wrong.");
-    		alert.showAndWait();
-    		didErrorOccured=true;
-    	}
-    	if(didErrorOccured==false)
-    	{	
-    	Stage stage = (Stage) comboBox.getScene().getWindow();
-    	stage.close();
+    		Dialogs.emptyFileOrIncorrectDataMessage();
     	}
 
     }

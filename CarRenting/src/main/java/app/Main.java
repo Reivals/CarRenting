@@ -1,5 +1,6 @@
 package app;
 
+import databse.Connect;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ public class Main extends Application {
 		stage.setTitle("Managment System");
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
 		Scene scene = new Scene((Pane)loader.load(),1800,900);
+		Connect.function();
 		stage.setScene(scene);
 		stage.show();
 		
