@@ -7,16 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Car;
-import model.Customer;
-import model.Deal;
 
 public class AddNewCarController {
 	
@@ -67,7 +63,7 @@ public class AddNewCarController {
     	}
     	catch(Exception e)
     	{
-    		Dialogs.emptyFileOrIncorrectDataMessage();
+    		Dialogs.errorDialogMessage("Empty file / Incorrect data format. Please correct yourself!", "Ooops. Something goes wrong.");
     	}
 
     }

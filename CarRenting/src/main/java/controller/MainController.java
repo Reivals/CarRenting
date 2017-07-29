@@ -1,11 +1,12 @@
 package controller;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
-
 import com.itextpdf.text.DocumentException;
-
+import dialogs.Dialogs;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import model.Car;
 import model.Customer;
 import model.Deal;
 import pdf.CreatingPDF;
+import pdf.Open;
 
 public class MainController {
 	
@@ -104,6 +106,10 @@ public class MainController {
 
     @FXML
     void acceptButtonClicked(ActionEvent event) throws DocumentException, IOException {
+    	try
+    	{
+    	if(tableView.getSelectionModel().getSelectedItem().getAvailable()=="YES")
+    	{
     	try {
     	CreatingPDF.doc(tableView.getSelectionModel().getSelectedItem().getId(), 
     			tableView.getSelectionModel().getSelectedItem().getBrand(), 
@@ -129,9 +135,7 @@ public class MainController {
     		alert.showAndWait();
     	}
     	else {
-    			Desktop desktop = Desktop.getDesktop();
-    			File file = new File(customerModel.getName()+"_"+customerModel.getSurname()+"_"+"Contract.pdf");
-    			desktop.open(file);
+    		Open.openPdfFile(customerModel.getName()+"_"+customerModel.getSurname()+"_Contract.pdf");
     			Customer newCustomer = new Customer(customerModel.getName(),
     					customerModel.getSurname(),
     					customerModel.getCity(),
@@ -149,10 +153,18 @@ public class MainController {
     	}
     	catch(Exception e)
     	{
-    		Alert alert = new Alert(Alert.AlertType.ERROR);
-    		alert.setContentText("Please select car you want to rent");
-    		alert.showAndWait();
+    		Dialogs.errorDialogMessage("Please select car you want to rent", "");
     		
+    	}
+    	}
+    	else
+    	{
+    		Dialogs.informationDialogMessage("This vehicle is already taken. If you want to set it free delete contract from system", "Vehicle is already taken");
+    	}
+    	}
+    	catch(Exception e)
+    	{
+    		Dialogs.errorDialogMessage("Please select car you want to rent", "");
     	}
     	
     }
@@ -181,8 +193,7 @@ public class MainController {
     	powerColumn.setCellValueFactory(new PropertyValueFactory<Car, Integer>("power"));
     	fuelColumn.setCellValueFactory(new PropertyValueFactory<Car, Double>("liters"));
     	carModel.getObservableList().add(new Car(213,"FIAT","1.9 JTD",true,true,32.4,132));
-    	
-    	
+
     	nameTextField.textProperty().bindBidirectional(customerModel.getNameSimpleStringProp());
     	surnameTextField.textProperty().bindBidirectional(customerModel.getSurnameSimpleStringProp());
     	cityTextField.textProperty().bindBidirectional(customerModel.getCitySimpleStringProp());
@@ -190,8 +201,15 @@ public class MainController {
     	localNumberTextField.textProperty().bindBidirectional(customerModel.getLocalNumberSimpleStringProp());
     	postCodeTextField.textProperty().bindBidirectional(customerModel.getPostCodeSimpleStringProp());
     	idTextField.textProperty().bindBidirectional(customerModel.getIdSimpleStringProp());
+    	tableView.setItems(carModel.getObservableList());
+    	availableColumn.setCellValueFactory(cellData -> cellData.getValue().getAvailableProperty()); // TEZ TAK MOZNA!! -> Powiazanie bezposrednie
+    	//ale wyswietli nam true/false zamiast "YES"/"NO" dlatego zostawiam ponizsze rozwiazanie
     	
     	tableView.setItems(carModel.getObservableList());
+    	carModel.getObservableList().addListener((Change<? extends Car> c) -> {
+    		tableView.refresh();
+         });
+    	
     	
     }
     @FXML

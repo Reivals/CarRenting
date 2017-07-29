@@ -1,5 +1,10 @@
 package app;
 
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +33,9 @@ public class Main extends Application {
 		MainController mainController = new MainController(carModel, customerModel, dealModel);
 		loader.setController(mainController);
 		Scene scene = new Scene((Pane)loader.load(),1800,900);
+		//Deal.getCurrentDate();
+
+
 		stage.setScene(scene);
 		stage.show();
 		

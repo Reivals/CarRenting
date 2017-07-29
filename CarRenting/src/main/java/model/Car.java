@@ -1,9 +1,13 @@
 package model;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,11 +20,11 @@ public class Car {
 	private SimpleDoubleProperty liters = new SimpleDoubleProperty();
 	private SimpleIntegerProperty power = new SimpleIntegerProperty();
 	
-	ObservableList<Car> observableList = FXCollections.observableArrayList();
+	ObservableList<Car> observableList = FXCollections.observableArrayList(  e -> new Observable[] {e.getAvailableProperty()});
 	public Car(int id, String brand, String engine, String navi, String available, double liters, int power)
 	{
-		
 	}
+
 	public Car(int id,String brand,String engine,Boolean navi,Boolean available,double liters,int power)
 	{
 		this.id.set(id);
@@ -33,7 +37,6 @@ public class Car {
 	}
 
 	public Car() {
-		// TODO Auto-generated constructor stub
 	}
 	public int getId() {
 		return id.getValue();
@@ -60,6 +63,11 @@ public class Car {
 		else
 			return "NO";
 	}
+	
+	public SimpleBooleanProperty getAvailableProperty()
+	{
+		return available;
+	}
 
 	public double getLiters() {
 		return liters.getValue();
@@ -75,6 +83,10 @@ public class Car {
 	public void setAvailable(Boolean available) {
 		this.available.setValue(available);
 	}
-	
+	public void setAvailable(SimpleBooleanProperty available) {
+		this.available = available;
+	}
+
+
 
 }
